@@ -1,0 +1,11 @@
+till register done
+remaining form login
+
+done till student_my_courses but didnt fetched any course cause incomplete work of add course in Browse_course.
+remaining from there.
+
+incomplete from revenue-admin dashboard,
+created the structure but, remaining from formatting & retrieving values from DB.
+
+completed admin panel almost, few things are remaining like, formatting, and some UI adjustments.
+
