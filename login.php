@@ -146,7 +146,8 @@
                                             // Session start
                                             $row = mysqli_fetch_array($resultUser);
                                             if ($row['is_active'] == 0) {
-                                                $deactivated = true;
+                                                header("Location: deactivated.php");
+                                                exit();
                                             } else {
                                                 session_start();
                                                 $_SESSION['user_name'] = $row['name'];
@@ -178,28 +179,9 @@
             </section>
 
         </div>
-        <?php if (isset($deactivated) && $deactivated): ?>
-            <div class="msgbox" id="msgBox">
-                <h4>Account Deactivated</h4>
-                <p>Your account is deactivated.<br>Please contact admin.</p>
-                <button onclick="close()">Close</button>
-            </div>
-        <?php endif; ?>
-
 
         <?php require('script.php') ?>
-        <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                <?php if (isset($deactivated) && $deactivated): ?>
-                    document.getElementById('msgBox').style.display = 'block';
-                <?php endif; ?>
-            });
-            function close() {
-                document.getElementById('msgBox').style.display = 'none';
-                window.location.reload();
-            }
 
-        </script>
 </body>
 
 </html>

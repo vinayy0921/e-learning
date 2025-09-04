@@ -37,6 +37,10 @@
             text-align: center;
             color: #aaa;
         }
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: #636363ff transparent;
+        }
     </style>
 </head>
 

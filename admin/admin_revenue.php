@@ -14,7 +14,10 @@
             transform: translateY(30px);
             transition: opacity 0.6s ease-out, transform 0.6s ease-out;
         }
-
+* {
+            scrollbar-width: thin;
+            scrollbar-color: #636363ff transparent;
+        }
         .fade-slide.show {
             opacity: 1;
             transform: translateY(0);

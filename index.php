@@ -4,13 +4,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>E-learning</title>
     <?php require('styles.php') ?>
     <!-- AOS Library -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <style>
-        /* Smooth hover for cards */
-       
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: #636363ff transparent;
+        }
     </style>
 </head>
 
@@ -275,11 +278,11 @@
     <!-- Scripts -->
     <?php require('script.php') ?>
 
-    
+
     <script>
         AOS.init({
             duration: 1000,
-            once: false, 
+            once: false,
             offset: 100
         });
     </script>

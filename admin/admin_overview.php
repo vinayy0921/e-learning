@@ -15,6 +15,11 @@
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
+    * {
+      scrollbar-width: thin;
+      scrollbar-color: #636363ff transparent;
+    }
+
     .card:hover {
       transform: translateY(-6px);
       box-shadow: 0 12px 20px rgba(0, 0, 0, 0.12);
@@ -53,9 +58,11 @@
       0% {
         box-shadow: 0 0 0 0 rgba(25, 135, 84, 0.6);
       }
+
       70% {
         box-shadow: 0 0 0 10px rgba(25, 135, 84, 0);
       }
+
       100% {
         box-shadow: 0 0 0 0 rgba(25, 135, 84, 0);
       }
@@ -197,6 +204,10 @@
               <span class="small">Database</span>
               <span class="badge bg-success">Connected</span>
             </div>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <span class="small">Payment Gateway</span>
+              <span class="badge bg-success">Working</span>
+            </div>
             <div class="d-flex justify-content-between align-items-center">
               <span class="small">CDN</span>
               <span class="badge bg-success">Operational</span>
@@ -226,4 +237,5 @@
     });
   </script>
 </body>
+
 </html>

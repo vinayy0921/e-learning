@@ -19,7 +19,10 @@
                 transform: translateY(0);
             }
         }
-
+* {
+            scrollbar-width: thin;
+            scrollbar-color: #636363ff transparent;
+        }
         tbody tr {
             opacity: 0;
             transform: translateY(20px);

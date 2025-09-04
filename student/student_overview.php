@@ -47,6 +47,10 @@
             /* faded look */
             cursor: not-allowed;
         }
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: #636363ff transparent;
+        }
     </style>
     <title>Discover Courses</title>
 </head>
@@ -104,12 +108,19 @@
                     
                     $enrollQuery = "SELECT * FROM tblmycourses WHERE user_id = '" . $_SESSION['user_id'] . "' and course_id = '" . $courseId . "'";
                     $enrollResult = mysqli_query($conn, $enrollQuery);
+                    $compQuery = "SELECT * FROM tblcompleted_courses WHERE user_id = '" . $_SESSION['user_id'] . "' and course_id = '" . $courseId . "'";
+                    $compResult = mysqli_query($conn, $compQuery);
                     if ($enrollResult && mysqli_num_rows($enrollResult) > 0) {
                         $isEnrolled = "Enrolled";
                         $disabled = "disabled-link";
                     } else {
-                        $isEnrolled = "Enroll";
-                        $disabled = "";
+                         if ($compResult && mysqli_num_rows($compResult) > 0) {
+                            $isEnrolled = "Completed";
+                            $disabled = "disabled-link";
+                        } else {
+                            $isEnrolled = "Enroll";                           
+                            $disabled = "";
+                        }
                     }
 
                     echo "

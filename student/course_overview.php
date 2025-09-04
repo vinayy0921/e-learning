@@ -12,6 +12,10 @@
             background: #f9fafc;
             font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
         }
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: #636363ff transparent;
+        }
 
         /* Navbar */
         .navbar {
@@ -313,7 +317,7 @@
                         <button class="btn btn-success w-100" disabled>Pay via UPI</button>
                     </div>
                 </ul>
-                
+
             </div>
         </div>
     </div>

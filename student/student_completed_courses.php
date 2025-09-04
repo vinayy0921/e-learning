@@ -24,6 +24,11 @@ $res = mysqli_query($conn, $q);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: #636363ff transparent;
+        }
+
         .course-card:hover {
             transform: translateY(-8px);
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
@@ -136,7 +141,8 @@ $res = mysqli_query($conn, $q);
                                 <!-- <a href="downloadCertificate.php?course_id=<?= $row['course_id']; ?>" -->
                                 <div class="btn btn-success btn-sm w-100">
                                     <i class="bi bi-award"></i> Download Certificate
-                                <!-- </a> --></div>
+                                    <!-- </a> -->
+                                </div>
                             </div>
                         </div>
                     </div>

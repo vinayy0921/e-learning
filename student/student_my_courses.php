@@ -39,6 +39,10 @@
             color: #0dcaf0;
             transform: scale(1.2);
         }
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: #636363ff transparent;
+        }
     </style>
     <title>My Courses</title>
 </head>

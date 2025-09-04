@@ -12,7 +12,10 @@
   --bs-dark: #343a40;
   --transition: all 0.3s ease-in-out;
 }
-
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #4e4e4eff transparent; /* thumb color | track color */
+}
 html {
   scroll-behavior: smooth;
 }
@@ -386,3 +389,36 @@ footer a:hover {
     box-shadow: 0 0 0 0 rgba(25, 135, 84, 0);
   }
 }
+ .footer {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+        }
+
+        .footer h6 {
+            color: #f1f1f1;
+            font-size: 14px;
+            letter-spacing: 1px;
+        }
+
+        .footer-link {
+            display: block;
+            color: #aaa;
+            margin-bottom: 8px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: #0dcaf0;
+            transform: translateX(5px);
+        }
+
+        .social-link {
+            color: #aaa;
+            font-size: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            color: #0dcaf0;
+            transform: scale(1.2);
+        }

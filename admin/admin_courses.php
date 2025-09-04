@@ -19,9 +19,13 @@
             }
         }
 
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: #636363ff transparent;
+        }
+
         .course-card {
             opacity: 0;
-            /* hidden by default */
             transform: translateY(50px);
             transition: opacity 0.6s ease, transform 0.6s ease;
         }
@@ -29,6 +33,11 @@
         .course-card.show {
             animation: fadeSlideIn 0.8s ease forwards;
         }
+        .course-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+        
     </style>
 </head>
 
@@ -39,9 +48,9 @@
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h4>Courses</h4>
             <form action="createCourse.php" method="post">
-            <button class="btn btn-outline-dark" type="submit">
-                <i class="fa-solid fa-plus"></i> Create New Course
-            </button>
+                <button class="btn btn-outline-dark" type="submit">
+                    <i class="fa-solid fa-plus"></i> Create New Course
+                </button>
             </form>
         </div>
 
@@ -59,7 +68,6 @@
                 </div>';
         } else {
             echo '<div class="row">';
-            $index = 0;
             while ($row = mysqli_fetch_array($result)) {
                 $courseId = $row['id'];
                 $courseTitle = $row['title'];
@@ -106,7 +114,6 @@
                                     </div>
 
                                     <div class='d-flex gap-2 ms-3'>
-                                        
                                         <form action='deleteCourse.php' method='post'>
                                             <input type='hidden' name='courseId' value='$courseId'>
                                             <button class='btn btn-danger btn-sm' type='submit'>
@@ -116,102 +123,79 @@
                                         </form>
                                     </div>
                                 </div>
+
+                                <button class='btn btn-outline-secondary m-3 open-comments' 
+                                        data-course-id='$courseId' 
+                                        data-bs-toggle='modal' 
+                                        data-bs-target='#commentsModal'>
+                                    <i class='fa-solid fa-comment-dots me-2'></i>Comments
+                                </button>
                             </div>
                         </div>
                     </div>
                 ";
-                $index++;
             }
             echo '</div>';
         }
         ?>
     </div>
 
-    <!-- Modal (unchanged) -->
-    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-        aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-scrollable modal-lg">
+    <!-- Modal -->
+    <div class="modal fade" id="commentsModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="commentsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Create New Course</h5>
-                    
-                    <button type="button" class="btn-close"></button>
+                    <h5 class="modal-title" id="commentsModalLabel">Comments</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
-                    <form method="post">
-                        <!-- title -->
-                        <div class="mb-3">
-                            <label for="courseTitle" class="form-label">Title</label>
-                            <input type="text" class="form-control" id="courseTitle" name="courseTitle" required>
-                        </div>
-                        <!-- description -->
-                        <div class="mb-3">
-                            <label for="courseDescription" class="form-label">Description</label>
-                            <textarea name="courseDescription" class="form-control" id="courseDescription" cols="100"
-                                rows="3" required name="courseDescription"></textarea>
-                        </div>
-                        <!-- instructor -->
-                        <div class="mb-3">
-                            <label for="courseInstructor" class="form-label">Instructor</label>
-                            <input type="text" name="courseInstructor" name="courseInstructor" class="form-control"
-                                id="courseInstructor" required></input>
-                        </div>
-                        <!-- category -->
-                        <div class="mb-3">
-                            <label class="form-label" for="courseCategory">Category</label>
-                            <input type="text" class="form-control" name="courseCategory" id="courseCategory" required>
-                        </div>
-                        <!-- Price -->
-                        <div class="mb-3">
-                            <label class="form-label" for="coursePrice">Price (in ₹) </label>
-                            <input type="number" class="form-control" name="coursePrice" id="coursePrice" required>
-                        </div>
-                        <!-- Thumbnail -->
-                        <div class="mb-3"> 
-                            <label class="form-label" for="courseThumbnail">Thumbnail</label>
-                            <input type="file" class="form-control" name="courseThumbnail" id="courseThumbnail">
-                        </div>
-                        <!-- Video -->
-                        <div class="mb-3"> <label class="form-label" for="courseVideo">Video</label> 
-                        <input type="file" class="form-control" name="courseVideo" id="courseVideo"> 
-                    </div> 
-                    <!-- Duration -->
-                        <div class="mb-3"> <label class="form-label" for="courseDuration">Duration</label> <input
-                                type="text" class="form-control" name="courseDuration" id="courseDuration" required>
-                        </div> <button type="reset" class="btn btn-outline-info"><i
-                                class="fa-solid fa-arrow-rotate-left me-1" style="font-size:13px"></i> Reset</button>
-                        <button type="submit" class="btn btn-primary" name="btnCreateCourse">Create & Publish</button>
-                    </form>
-                  
+                <div class="modal-body p-3" id="commentsContainer">
+                    <!-- Comments will be loaded dynamically here -->
+                    <p class="text-muted">Loading comments...</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
     </div>
 
+    <?php require_once './footer.php' ?>
     <?php require_once '../script.php' ?>
 
     <script>
         // Animate courses one by one
         document.addEventListener("DOMContentLoaded", () => {
             const cards = document.querySelectorAll(".course-card");
-
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add("show");
-                        observer.unobserve(entry.target); // animate once
+                        observer.unobserve(entry.target);
                     }
                 });
-            }, {
-                threshold: 0.2 // 20% of card visible triggers animation
-            });
+            }, { threshold: 0.2 });
 
             cards.forEach(card => observer.observe(card));
+
+            // Comments modal handling
+            document.querySelectorAll(".open-comments").forEach(btn => {
+                btn.addEventListener("click", () => {
+                    const courseId = btn.getAttribute("data-course-id");
+                    const container = document.getElementById("commentsContainer");
+                    container.innerHTML = "<p class='text-muted'>Loading comments...</p>";
+
+                    fetch("fetch_comments.php?courseId=" + courseId)
+                        .then(res => res.text())
+                        .then(data => {
+                            container.innerHTML = data;
+                        })
+                        .catch(() => {
+                            container.innerHTML = "<p class='text-danger'>Failed to load comments.</p>";
+                        });
+                });
+            });
         });
     </script>
 </body>
-
 </html>
