@@ -239,7 +239,7 @@
                                 }
                             }
 
-                            $q = "select * from tblcomments where course_id=$course_id";
+                            $q = "select * from tblcomments where course_id=$course_id order by created_at desc";
                             $r = mysqli_query($conn, $q);
                             while ($row = mysqli_fetch_array($r)) {
                                 $uname = $row['user_name'];

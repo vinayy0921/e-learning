@@ -12,6 +12,7 @@
             background: #f9fafc;
             font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
         }
+
         * {
             scrollbar-width: thin;
             scrollbar-color: #636363ff transparent;
@@ -136,6 +137,7 @@
             border-radius: 30px;
         }
     </style>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 
 <body>
@@ -220,13 +222,16 @@
         <div class="row mt-4">
             <!-- Left Side -->
             <div class="col-lg-6 mb-4">
-                <h3 class="fw-bold"><?php echo $courseTitle; ?></h3>
-                <p class="text-muted"><?php echo $courseDescription; ?></p>
-                <p><strong>Instructor:</strong> <?php echo $courseInstructor; ?></p>
-                <p><strong>Price:</strong> <span class="text-success fw-bold">₹<?php echo $coursePrice; ?></span></p>
-                <p><strong>Rating:</strong> ⭐<?php echo $courseRating; ?> </p>
-                <p><strong>Videos: </strong> <?php echo $lessonCount; ?></p>
+                <div class="card p-2">
+                    <h3 class="fw-bold"><?php echo $courseTitle; ?></h3>
+                    <p class="text-muted"><?php echo $courseDescription; ?></p>
+                    <p><strong>Instructor:</strong> <?php echo $courseInstructor; ?></p>
+                    <p><strong>Price:</strong> <span class="text-success fw-bold">₹<?php echo $coursePrice; ?></span>
+                    </p>
+                    <p><strong>Rating:</strong> ⭐<?php echo $courseRating; ?> </p>
+                    <p><strong>Videos: </strong> <?php echo $lessonCount; ?></p>
 
+                </div>
                 <div class="card mt-4 shadow-sm border-0">
                     <div class="card-header bg-light border-0 fw-semibold">
                         💬 Comments
@@ -281,19 +286,40 @@
                         </div>
                     </li>
                     <div id="cardForm" class="payment-form">
-                        <form action="enroll.php" method="post">
-                            <input type="text" class="form-control mb-2" placeholder="Card Number" required>
-                            <div class="d-flex gap-2">
-                                <input type="text" class="form-control" placeholder="MM/YY" required>
-                                <input type="text" class="form-control" placeholder="CVV" required>
+                        <form id="paymentForm" action="enroll.php" method="post">
+                            <div class="mb-2">
+                                <input type="text" id="cardNumber" class="form-control" maxlength="19"
+                                    placeholder="Card Number" required>
+                                <small id="cardNumberError" class="text-danger"></small>
                             </div>
-                            <input type="text" class="form-control mt-2" placeholder="Card Holder Name">
+
+                            <div class="d-flex gap-2">
+                                <div class="w-50">
+                                    <input type="text" id="expiry" class="form-control" maxlength="5"
+                                        placeholder="MM/YY" required>
+                                    <small id="expiryError" class="text-danger"></small>
+                                </div>
+                                <div class="w-50">
+                                    <input type="text" id="cvv" class="form-control" maxlength="3" placeholder="CVV"
+                                        required>
+                                    <small id="cvvError" class="text-danger"></small>
+                                </div>
+                            </div>
+
+                            <div class="mt-2">
+                                <input type="text" id="cardHolder" class="form-control" placeholder="Card Holder Name">
+                                <small id="cardHolderError" class="text-danger"></small>
+                            </div>
+
                             <input type="hidden" name="courseId" value="<?php echo $courseId; ?>">
                             <input type="hidden" name="coursePrice" value="<?php echo $coursePrice; ?>">
                             <input type="hidden" name="category" value="<?php echo $category; ?>">
-                            <button class="btn btn-success mt-3 w-100" name="btnPay">Pay Now</button>
+
+                            <button id="btnPay" class="btn btn-success mt-3 w-100" name="btnPay" disabled>Pay
+                                Now</button>
                         </form>
                     </div>
+
 
                     <!-- UPI -->
                     <li class="list-group-item d-flex justify-content-between align-items-center"
@@ -322,6 +348,7 @@
         </div>
     </div>
 
+
     <script>
         function togglePayment(id) {
             let elem = document.getElementById(id);
@@ -331,7 +358,89 @@
             });
             elem.style.display = (elem.style.display === "block") ? "none" : "block";
         }
+        $(document).ready(function () {
+            function validateForm() {
+                let cardValid = $("#cardNumberError").text() === "" && $("#cardNumber").val().trim() !== "";
+                let expiryValid = $("#expiryError").text() === "" && $("#expiry").val().trim() !== "";
+                let cvvValid = $("#cvvError").text() === "" && $("#cvv").val().trim() !== "";
+                let holderValid = $("#cardHolderError").text() === "" && $("#cardHolder").val().trim() !== "";
+
+                if (cardValid && expiryValid && cvvValid && holderValid) {
+                    $("#btnPay").prop("disabled", false);
+                } else {
+                    $("#btnPay").prop("disabled", true);
+                }
+            }
+            // Auto-format card number with dashes
+            $("#cardNumber").on("input", function () {
+                let val = $(this).val().replace(/\D/g, ""); // remove non-digits
+                val = val.match(/.{1,4}/g)?.join("-") || ""; // group every 4 digits
+                $(this).val(val);
+
+                // Validate 16 digits (ignoring dashes)
+                if (!/^\d{16}$/.test(val.replace(/-/g, ""))) {
+                    $("#cardNumberError").text("Card number must be 16 digits.");
+                } else {
+                    $("#cardNumberError").text("");
+                }
+                if (val.length === 19) {
+                    $("#expiry").focus();
+                }
+                validateForm();
+            });
+
+            // Auto-format expiry date as MM/YY
+            $("#expiry").on("input", function () {
+                let val = $(this).val().replace(/\D/g, ""); // remove non-digits
+
+                if (val.length > 2) {
+                    val = val.substring(0, 2) + "/" + val.substring(2, 4);
+                }
+                $(this).val(val);
+
+                // Validate format MM/YY
+                let regex = /^(0[1-9]|1[0-2])\/\d{2}$/;
+                if (!regex.test(val)) {
+                    $("#expiryDateError").text("Enter a valid date (MM/YY).");
+                } else {
+                    $("#expiryDateError").text("");
+                }
+                if (val.length === 5) {
+                    $("#cvv").focus();
+                }
+                validateForm();
+            });
+
+            // CVV (3 digits)
+            $("#cvv").on("blur keyup", function () {
+                let val = $(this).val().trim();
+                if (!/^\d{3}$/.test(val)) {
+                    $("#cvvError").text("CVV must be 3 digits.");
+                } else {
+                    $("#cvvError").text("");
+                }
+                if (val.length === 3) {
+                    $("#cardHolder").focus();
+                }
+                validateForm();
+            });
+
+            // Card holder (letters only)
+            $("#cardHolder").on("blur keyup", function () {
+                let val = $(this).val().trim();
+                if (!/^[a-zA-Z\s]+$/.test(val)) {
+                    $("#cardHolderError").text("Name can only contain letters and spaces.");
+                } else {
+                    $("#cardHolderError").text("");
+                }
+                validateForm();
+            });
+
+            // Disable button initially
+            $("#btnPay").prop("disabled", true);
+        });
     </script>
+
 </body>
 
 </html>

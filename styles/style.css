@@ -33,6 +33,29 @@ body {
 body.fade-in {
   opacity: 1;
 }
+.btn-register {
+    background: linear-gradient(135deg, #28a745, #218838);
+    color: white !important;
+    font-size: 1.1rem;
+    font-weight: 600;
+    padding: 12px 40px;
+    border: none;
+    border-radius: 50px;
+    box-shadow: 0 4px 10px rgba(40, 167, 69, 0.3);
+    transition: all 0.3s ease-in-out;
+}
+
+.btn-register:hover {
+    background: linear-gradient(135deg, #218838, #1e7e34);
+    box-shadow: 0 6px 14px rgba(40, 167, 69, 0.4);
+    transform: translateY(-2px);
+}
+
+.btn-register:disabled {
+    background: #ccc !important;
+    cursor: not-allowed;
+    box-shadow: none;
+}
 
 .msgbox {
     position: absolute;

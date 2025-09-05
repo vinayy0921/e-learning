@@ -7,17 +7,18 @@ $query = "SELECT comment, created_at, user_name,is_active
           FROM tblcomments 
           WHERE course_id = $courseId";
 $result = mysqli_query($conn, $query);
+$commentCount = mysqli_num_rows($result);
 
 if (mysqli_num_rows($result) === 0) {
     echo "<p class='text-muted'>No comments yet.</p>";
 } else {
     while ($row = mysqli_fetch_assoc($result)) {
         $isActive = $row['is_active'] ;
-        if($isActive==0){
-           $isEnableText="Enable";
+        if(!$isActive){
+           $isEnableText="Show";
            $btnClass="btn-outline-primary";
         }else{
-           $isEnableText="Disable";
+           $isEnableText="Hide";
            $btnClass="btn-outline-danger";
         }
         echo "
@@ -27,9 +28,10 @@ if (mysqli_num_rows($result) === 0) {
                     <h6 class='card-title mb-2'>{$row['user_name']}</h6>
                     <p class='card-text mb-0'>{$row['comment']}</p>
                     <p class='text-muted small'>{$row['created_at']}</p>
+                    
                 </div>
-                <button class='btn $btnClass btn-sm rounded m-3'>$isEnableText</button>
-            </div>
-        </div>";
-    }
-}
+                </div>
+                </div>";
+            }
+        }
+        // <button class='btn $btnClass btn-sm rounded m-3'>$isEnableText</button>

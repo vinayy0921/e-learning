@@ -47,7 +47,7 @@
             background: #bb2d3b;
         }
     </style>
-    <title>Document</title>
+    <title>LearnHub - Login</title>
 </head>
 
 <body>

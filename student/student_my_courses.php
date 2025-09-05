@@ -115,10 +115,7 @@
                                     </div>
                                 </div>
                                 <div class='d-flex justify-content-between align-items-center'>
-                                    <button class='btn btn-outline-secondary btn-sm'
-                                    name='btnRemove'>
-                                       Remove
-                                    </button>
+                                   
                                    <a href='coursePlayer.php?courseID= $courseId' class='btn btn-primary btn-sm'>
                                         Continue
                                     </a>

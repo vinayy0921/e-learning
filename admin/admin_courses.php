@@ -37,7 +37,39 @@
             transform: translateY(-8px);
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
         }
-        
+        .footer {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+        }
+
+        .footer h6 {
+            color: #f1f1f1;
+            font-size: 14px;
+            letter-spacing: 1px;
+        }
+
+        .footer-link {
+            display: block;
+            color: #aaa;
+            margin-bottom: 8px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: #0dcaf0;
+            transform: translateX(5px);
+        }
+
+        .social-link {
+            color: #aaa;
+            font-size: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            color: #0dcaf0;
+            transform: scale(1.2);
+        }
     </style>
 </head>
 
@@ -77,6 +109,25 @@
                 $courseCategory = $row['category'];
                 $coursePrice = $row['price'];
                 $courseDateCreated = $row['created_at'];
+                $courseIsActive = $row['is_active'];
+                if($courseIsActive==1){
+                    $courseBtn="<form action='courseActive.php' method='post'>
+                                    <input type='hidden' name='courseId' value='$courseId'>
+                                    <button class='btn btn-outline-danger m-3' type='submit'>
+                                        <i class='fa-solid fa-ban me-2'></i>Deactivate
+                                    </button>
+                                </form>";
+                    $courseStatus="Active";
+                }else{
+                    $courseBtn=" <form action='courseActive.php' method='post'>
+                                    <input type='hidden' name='courseId' value='$courseId'>
+                                    <button class='btn btn-outline-success m-3' type='submit'>
+                                        <i class='fa-solid fa-check me-2'></i>Activate
+                                    </button>
+                                </form>";
+                    $courseStatus="Inactive";
+                }
+                    
 
                 echo "
                     <div class='col-12 mb-3'>
@@ -90,9 +141,7 @@
                                                 <h6 class='card-title mb-0 me-3'>
                                                     $courseTitle
                                                 </h6>
-                                                <p class='text-muted small mb-3 text-center' style='max-width: 300px;'>
-                                                    $courseDescription
-                                                </p>
+                                               
                                                 <div>
                                                     <span class='text-muted'>Instructor:</span>
                                                     <p class='mb-0'>$courseInstructor</p>
@@ -109,6 +158,10 @@
                                                     <span class='text-muted'>Date Created:</span>
                                                     <p class='mb-0'>$courseDateCreated</p>
                                                 </div>
+                                                <div>
+                                                    <span class='text-muted'>Status</span>
+                                                    <p class='mb-0'>$courseStatus</p>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -124,12 +177,15 @@
                                     </div>
                                 </div>
 
-                                <button class='btn btn-outline-secondary m-3 open-comments' 
+                                <div class='d-flex justify-content-start'>
+                                    <button class='btn btn-outline-secondary m-3 open-comments' 
                                         data-course-id='$courseId' 
                                         data-bs-toggle='modal' 
                                         data-bs-target='#commentsModal'>
-                                    <i class='fa-solid fa-comment-dots me-2'></i>Comments
-                                </button>
+                                        <i class='fa-solid fa-comment-dots me-2'></i>Comments
+                                    </button>
+                                    $courseBtn
+                                </div>
                             </div>
                         </div>
                     </div>

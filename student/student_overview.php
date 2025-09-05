@@ -84,7 +84,7 @@
             <?php
             require_once '../connection.php';
 
-            $courseQuery = "SELECT * FROM tblcourses";
+            $courseQuery = "SELECT * FROM tblcourses where is_active=1";
             $result = mysqli_query($conn, $courseQuery);
 
             if (!$result) {
@@ -186,95 +186,7 @@
             }
             ?>
         </div>
-        <!-- <div class="row p-5">
-            <div class="col-md-6 col-lg-3 mb-4">
-                <div class="card h-100 shadow-sm hover-shadow">
-                    <div style=" position: 'relative'; padding-bottom: '56.25%'; overflow: 'hidden' ">
-                        <img src="" alt="image" class="card-img-top"
-                            style="
-                            position: 'absolute'; top: 0; left: 0; width: '100%'; height: '100%'; objectFit: 'cover'" />
-                        <span class="badge bg-primary position-absolute" style="top: '8px'; right: '8px'"> web
-                        </span>
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">title</h5>
-                        <p class="text-muted small">by instructor</p>
 
-                        <div class="d-flex align-items-center gap-3 mb-3 small text-muted">
-                            <div class="d-flex align-items-center">
-                                <i class="fa-solid fa-star" class="text-warning me-1" style="font-size: 16px;color:goldenrod"></i>
-                                rating
-                            </div>
-                            <div class="d-flex align-items-center">
-                                <i class="fa-regular fa-clock" class="me-1" style="font-size: 16px;"></i>
-                                duration
-                            </div>
-                        </div>
-
-                        <div class="d-flex justify-content-between align-items-center">
-                            <span class="h5 mb-0">₹price</span>
-                            <button class="btn btn-primary btn-sm" onClick={handleOverview}>
-                                Overview
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> -->
-
-
-        <!-- modal -->
-        <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
-            tabIndex="-1">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalToggleLabel">Overview</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-
-                        <div class="text-center mb-3 border" style="height: 250px; width: 100%">
-                            <img src=modalCourseImage alt="Course Image" id="modalCourseImage" class="img-fluid rounded"
-                                style="max-height: 200px; object-fit: cover;">
-                        </div>
-                        <h5 id="modalCourseTitle">Course Title</h5>
-                        <p id="modalCourseDescription">Course Description</p>
-                        <p><strong>Category:</strong> <span id="modalCourseCategory">Category</span></p>
-                        <p><strong>Price:</strong> ₹<span id="modalCoursePrice">Price</span></p>
-                        <input type="hidden" id="modalCourseId" value="">
-
-                    </div>
-                    <div class="modal-footer">
-                        <form method="post">
-                            <input type="hidden" name="course_id" id="course_id" value="">
-                            <button class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal"
-                                data-bs-dismiss="modal" id="modalCourseId" name="btnEnroll">Enroll now</button>
-                        </form>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2"
-            tabIndex="-1">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalToggleLabel2">Enrolled Successfully</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        You have successfully enrolled in the course.
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-primary" data-bs-target="#my-courses" data-bs-toggle="tab"
-                            data-bs-dismiss="modal">View Course</button>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 
     <?php require_once './footer.php' ?>
